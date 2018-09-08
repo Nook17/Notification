@@ -20,12 +20,13 @@ class DatabaseSeeder extends Seeder
   // ******************** USERS ****************************
 
   for ($user_id = 1; $user_id <= $users; $user_id++) {
+   $created_data = $faker->dateTimeThisYear($max = 'now');
    if ($user_id == 1) {
     DB::table('users')->insert([
      'name'       => 'Arek Demko',
      'email'      => 'arek@o2.pl',
      'password'   => bcrypt('nook17'),
-     'created_at' => $faker->dateTimeThisYear($max = 'now'),
+     'created_at' => $created_data,
     ]);
    }
 
@@ -43,7 +44,14 @@ class DatabaseSeeder extends Seeder
     'name'       => $name,
     'email'      => str_replace('-', '', str_slug($name)) . '@' . $faker->freeEmailDomain,
     'password'   => bcrypt('nook17'),
-    'created_at' => $faker->dateTimeThisYear($max = 'now'),
+    'created_at' => $created_data,
+   ]);
+
+   DB::table('settings')->insert([
+    'user_id'       => $user_id,
+    'notifi_follow' => 3,
+    'notifi_news'   => 3,
+    'created_at'    => $created_data,
    ]);
   }
 
